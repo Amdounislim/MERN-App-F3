@@ -26,10 +26,31 @@ router.get("/", (req, res) => {
 //@desc Get user by id
 //@access public
 router.get("/:_id", (req, res) => {
-    let { _id } = req.params;
-//   let id = req.params._id;
+  let { _id } = req.params;
+  //   let id = req.params._id;
   User.find({ _id })
     .then((user) => res.send(user))
+    .catch((err) => res.send(err));
+});
+
+//@Api http:localhost:9000/api/users/id
+//@desc Delete user by id
+//@access public
+router.delete("/:_id", (req, res) => {
+  // console.log(req.params)
+  let { _id } = req.params;
+  User.findByIdAndDelete({ _id })
+    .then(() => res.send("User has been deleted"))
+    .catch((err) => res.send(err));
+});
+
+//@Api http:localhost:9000/api/users/id
+//@desc Update user by id
+//@access public
+router.put("/:_id", (req, res) => {
+  let { _id } = req.params;
+  User.findByIdAndUpdate({ _id }, { $set: { ...req.body } })
+    .then(() => res.send("User has been updated"))
     .catch((err) => res.send(err));
 });
 
