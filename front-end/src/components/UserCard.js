@@ -1,8 +1,12 @@
 import React from "react";
-import {Card, Button, Col, Image, Form} from 'react-bootstrap'
+import { Card, Button, Col, Image } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { deleteUser, getUserById } from "../JS/actions/actionUser";
+import { Link } from "react-router-dom";
 
+const UserCard = ({ user }) => {
+  const dispatch = useDispatch();
 
-const UserCard = ({user}) => {
   return (
     <div
       style={{
@@ -46,10 +50,11 @@ const UserCard = ({user}) => {
               backgroundColor: "transparent",
             }}
           />
-
         </Col>
         <Card.Body style={{ position: "relative", bottom: "90px" }}>
-          <Card.Title style={{ margin: "0", color: "#505151" }}>{user.name}</Card.Title>
+          <Card.Title style={{ margin: "0", color: "#505151" }}>
+            {user.name}
+          </Card.Title>
           <Card.Text style={{ fontSize: "small", color: "#4baed4" }}>
             {user.email}
           </Card.Text>
@@ -58,9 +63,21 @@ const UserCard = ({user}) => {
           </Card.Text>
         </Card.Body>
         <div className="buttons">
-          <Button variant="outline-primary edit-button">Edit</Button>
+          <Link to="/Edit_user">
+            <Button
+              variant="outline-primary edit-button"
+              onClick={() => dispatch(getUserById(user._id))}
+            >
+              Edit
+            </Button>
+          </Link>
 
-          <Button variant="outline-danger edit-button">Delete</Button>
+          <Button
+            variant="outline-danger edit-button"
+            onClick={() => dispatch(deleteUser(user._id))}
+          >
+            Delete
+          </Button>
         </div>
       </Card>
     </div>

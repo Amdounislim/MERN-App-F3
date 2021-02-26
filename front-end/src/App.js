@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import "./App.css";
 import { Switch, Route, Link } from "react-router-dom";
 import UserCard from "./components/UserCard";
+import EditUser from "./components/EditUser";
 import AddUser from "./components/AddUser";
 
 function App() {
@@ -30,16 +31,18 @@ function App() {
 
       <Switch>
         <Route
-          exact path="/"
+          exact
+          path="/"
           render={() => (
             <div className="contact-list">
               {users.map((el) => (
-                <UserCard key={el._id} user={el}/>
+                <UserCard key={el._id} user={el} />
               ))}
             </div>
           )}
         />
         <Route path="/Add_user" render={() => <AddUser />} />
+        <Route path="/Edit_user" render={() => <EditUser />} />
       </Switch>
     </div>
   );

@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { addUser } from "../JS/actions/actionUser";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { editUserById } from "../JS/actions/actionUser";
 
-const AddUser = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-
+const EditUser = () => {
+  const [editUser, setEditUser] = useState({});
+  const userById = useSelector((state) => state.userById);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setEditUser(userById);
+  }, [userById]);
+
+  const handleChange = (e) => {
+    setEditUser({ ...editUser, [e.target.name]: e.target.value });
+  };
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -34,7 +40,7 @@ const AddUser = () => {
             color: "white",
           }}
         >
-          Add New Contact
+          Edit User
         </Card.Header>
 
         <Card.Body>
@@ -49,7 +55,8 @@ const AddUser = () => {
                   type="text"
                   name="name"
                   placeholder="Enter your name"
-                  onChange={(e) => setName(e.target.value)}
+                  value={editUser.name}
+                  onChange={handleChange}
                 />
               </Form.Group>
 
@@ -62,7 +69,8 @@ const AddUser = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={editUser.email}
+                  onChange={handleChange}
                 />
               </Form.Group>
 
@@ -75,7 +83,8 @@ const AddUser = () => {
                   type="text"
                   name="phone"
                   placeholder="Enter your phone"
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={editUser.phone}
+                  onChange={handleChange}
                 />
               </Form.Group>
             </Form>
@@ -85,9 +94,9 @@ const AddUser = () => {
           <Link to="/">
             <Button
               variant="outline-primary edit-button"
-              onClick={() => dispatch(addUser({ name, email, phone }))}
+              onClick={() => dispatch(editUserById(editUser._id, editUser))}
             >
-              Add
+              Save
             </Button>
           </Link>
           <Link to="/">
@@ -99,4 +108,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default EditUser;
